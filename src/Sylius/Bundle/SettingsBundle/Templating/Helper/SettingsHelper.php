@@ -56,15 +56,7 @@ class SettingsHelper extends Helper
      */
     public function getSettingsParameter($name)
     {
-        if (false === strpos($name, '.')) {
-            throw new \InvalidArgumentException(sprintf('Parameter must be in format "namespace.name", "%s" given.', $name));
-        }
-
-        list($namespace, $name) = explode('.', $name);
-
-        $settings = $this->settingsManager->loadSettings($namespace);
-
-        return $settings->get($name);
+        return $this->settingsManager->getSetting($name);
     }
 
     /**

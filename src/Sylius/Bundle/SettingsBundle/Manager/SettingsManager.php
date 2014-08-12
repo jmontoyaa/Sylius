@@ -89,6 +89,32 @@ class SettingsManager implements SettingsManagerInterface
     }
 
     /**
+     * Load settings parameter for given namespace and name.
+     *
+     * @param string $name
+     * @return mixed
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getSetting($name)
+    {
+        if (false === strpos($name, '.')) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Parameter must be in format "namespace.name", "%s" given.',
+                    $name
+                )
+            );
+        }
+
+        list($namespace, $name) = explode('.', $name);
+
+        $settings = $this->loadSettings($namespace);
+
+        return $settings->get($name);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function loadSettings($namespace)
